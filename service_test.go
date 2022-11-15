@@ -28,7 +28,6 @@ func Test_SetExistsGet(t *testing.T) {
 		if assert.NoError(t, err) {
 			assert.True(t, exists)
 		}
-
 	})
 
 	t.Run("Test Get", func(t *testing.T) {
