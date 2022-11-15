@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_SetGet(t *testing.T) {
+func Test_SetExistsGet(t *testing.T) {
 	redisClient, err := easyredis.ConnectToRedis("localhost", "6379", "0", "guest")
 	assert.NoError(t, err)
 
@@ -23,6 +23,13 @@ func Test_SetGet(t *testing.T) {
 		assert.NoError(t, err)
 	})
 
+	t.Run("Test Exists", func(t *testing.T) {
+		exists, err := service.Exists(ctx, "1234")
+		if assert.NoError(t, err) {
+			assert.True(t, exists)
+		}
+	})
+
 	t.Run("Test Get", func(t *testing.T) {
 		val, err := service.Get(ctx, "1234")
 		if assert.NoError(t, err) {
@@ -31,5 +38,4 @@ func Test_SetGet(t *testing.T) {
 			assert.NoError(t, err)
 		}
 	})
-
 }
