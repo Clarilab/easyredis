@@ -97,3 +97,17 @@ func (s *Service) Set(ctx context.Context, ttl time.Duration, key string, val in
 
 	return nil
 }
+
+// Exists returns true if the given key exists in redis.
+//
+// ctx should have a timeout
+//
+// key is the key that is being used to store the data
+func (s *Service) Exists(ctx context.Context, key string) (bool, error) {
+	result, err := s.client.Exists(ctx, key).Uint64()
+	if err != nil {
+		return false, err
+	}
+
+	return result == 1, nil
+}
