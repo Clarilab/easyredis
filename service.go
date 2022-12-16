@@ -98,6 +98,26 @@ func (s *Service) Set(ctx context.Context, ttl time.Duration, key string, val in
 	return nil
 }
 
+// SetJSON the given value to redis as json with the given TTL.
+//
+// ctx should have a timeout
+//
+// ttl is the time until the data should expire
+//
+// key is the key that is being used to store the data
+//
+// value must be a json object ([]byte)
+func (s *Service) SetJSON(ctx context.Context, ttl time.Duration, key string, val []byte) error {
+	const errMessage = "failed to write json value to redis"
+
+	err := s.client.SetEX(ctx, key, val, ttl).Err()
+	if err != nil {
+		return errors.Wrap(err, errMessage)
+	}
+
+	return nil
+}
+
 // Exists returns true if the given key exists in redis.
 //
 // ctx should have a timeout
